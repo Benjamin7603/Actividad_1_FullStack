@@ -3,32 +3,31 @@ package com.example.Actividad_1_FullStack.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.Actividad_1_FullStack.model.Producto;
 import com.example.Actividad_1_FullStack.repository.ProductoRepository;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
-@RequestMapping("/productos") // Todas las rutas empezarán con /productos
+@RequestMapping("/productos")
+@Tag(name = "Productos", description = "API para la gestión de productos de ShopSmart")
 public class ProductoController {
 
     @Autowired
     private ProductoRepository productoRepository;
 
-    // GET /productos: Retorna una lista de productos en formato JSON
+    @Operation(summary = "Obtener todos los productos")
     @GetMapping
     public List<Producto> obtenerProductos() {
         return productoRepository.findAll();
     }
 
-    // POST /productos: Permite agregar un nuevo producto
+    @Operation(summary = "Crear un nuevo producto")
     @PostMapping
     public Producto crearProducto(@RequestBody Producto producto) {
-        // Guarda el producto en MySQL y lo devuelve con su ID generado
         return productoRepository.save(producto);
     }
 }
